@@ -43,6 +43,52 @@ const ChatHeader = ({ name, chatUserImage }) => {
   );
 };
 
+const Lastmess = ({ userid, myid }) => {
+  const [lastmess, setLastMess] = useState();
+  useEffect(() => {
+    const q = query(
+      collection(db, "conversations"),
+      where("user_uid_1", "in", [myid, userid])
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const tmp = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(docs.data())
+        if (
+          (doc.data().user_uid_1 === myid &&
+            doc.data().user_uid_2 === userid) ||
+          (doc.data().user_uid_1 === userid && doc.data().user_uid_2 === myid)
+        ) {
+          tmp.push(doc.data());
+        }
+      });
+      const messages = tmp.sort((a, b) => a.createAt - b.createAt);
+      // console.log(messages[messages.length-1])
+      setLastMess(messages[messages.length - 1]);
+    });
+  }, []);
+
+  return (
+    <div className="lastmess">
+      {lastmess && lastmess?.isView ? (
+        lastmess?.user_uid_1 === myid ? (
+          <p> You: {lastmess?.message}</p>
+        ) : (
+          <p>{lastmess?.message}</p>
+        )
+      ) : (
+        lastmess?.user_uid_1 === myid ? (
+          <p> You: {lastmess?.message}</p>
+        ) : (
+          <p className="unview">{lastmess?.message}</p>
+        )
+        
+      )}
+    </div>
+  );
+  // return 'Hi'
+};
 const ChatHistory = ({ conversations, uid, chatUserImage }) => {
   const convert = (mess) => {
     var exp =
@@ -180,9 +226,10 @@ const Main = () => {
     );
     onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((docs) => {
-        if (// chỉ update state isView cho message có uid_1 = người nhận
-          (docs.data().user_uid_1 === personIdReceive &&
-            docs.data().user_uid_2 === personIdSend)
+        if (
+          // chỉ update state isView cho message có uid_1 = người nhận
+          docs.data().user_uid_1 === personIdReceive &&
+          docs.data().user_uid_2 === personIdSend
         ) {
           const convers = doc(db, "conversations", docs.id);
           updateDoc(convers, {
@@ -191,24 +238,8 @@ const Main = () => {
         }
       });
     });
-  }
-  useEffect(() => {
-    const usermessages = [] 
-    const q =  query(
-      collection(db, "conversations"),
-      where("user_uid_1", "==", user.uid || "user_uid_2", "==", user.uid )
-    );
-    // lấy tất cả tin nhắn của user
-    onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((docs) => {
-        console.log(docs.data())
-        usermessages.push(docs.data())
-       
-      });
-    });
-    
-  }, [])
-  
+  };
+
   const initChat = async (userChat) => {
     navigate("/");
     setChatUser(userChat.name);
@@ -356,7 +387,7 @@ const Main = () => {
                       <div className="about">
                         <div className="name">{x.name}</div>
                         <div className="status">
-                          You: ừ
+                          <Lastmess userid={x.uid} myid={user.uid} />
                         </div>
                       </div>
                     </li>

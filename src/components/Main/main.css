@@ -86,6 +86,10 @@
   }
 }
 
+
+.unview{
+  font-weight: bolder;
+}
 .list-user {
   display: flex;
   overflow-x: scroll;
