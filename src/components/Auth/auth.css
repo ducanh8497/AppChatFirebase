@@ -1,0 +1,13 @@
+.form-login {
+  max-width: 400px;
+  margin-top: 100px;
+}
+.ant-form-item-explain-error {
+  float: left;
+}
+.btn-fb {
+  margin-left: 20px;
+}
+.ant-picker-large {
+  width: 100%;
+}

@@ -1,0 +1,261 @@
+.main-mess {
+  margin-top: 20px;
+}
+.card {
+  background: #fff;
+  transition: 0.5s;
+  border: 0;
+  margin-bottom: 30px;
+  border-radius: 0.55rem;
+  position: relative;
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 80%);
+}
+.chat-app .people-list {
+  width: 280px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 20px;
+  z-index: 7;
+}
+
+.chat-app .chat {
+  min-height: 570px;
+  margin-left: 280px;
+  border-left: 1px solid #eaeaea;
+}
+
+.people-list {
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+.heading {
+  padding: 5px 0px 0px 5px;
+  margin-bottom: 15px;
+}
+.heading-avatar {
+  padding: 0;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.heading-avatar-icon img {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin-top: -15px;
+}
+
+.avatar {
+  position: relative;
+  display: inline-block;
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 1px;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 1px solid #fff;
+  }
+  &.online:before {
+    background-color: lime;
+  }
+  &.offline {
+    img { opacity: 0.8; }
+    &:before {
+      z-index: 10;
+      background-color: #f5f5f5;
+      border-color: #b1b1b1;
+    }
+    &:after {
+      font-family: 'FontAwesome';
+      content: "\f1eb";
+      position: absolute;
+      bottom: -1px;
+      right: 2px;
+      color: #ff3c41;
+      font-size: 8px;
+      z-index: 11;
+    }
+  }
+}
+
+.list-user {
+  display: flex;
+  overflow-x: scroll;
+  max-width: 400px;
+}
+
+.people-list .chat-list li {
+  padding-top: 10px;
+  list-style: none;
+  border-radius: 3px;
+  display: flex;
+  padding-left: 10px;
+}
+
+.people-list .chat-list li:hover {
+  background: #efefef;
+  cursor: pointer;
+}
+
+.people-list .chat-list li.active {
+  background: #efefef;
+}
+
+.people-list .chat-list li .name {
+  font-size: 15px;
+}
+
+.people-list img {
+  float: left;
+  border-radius: 50%;
+}
+
+.people-list .about {
+  float: left;
+  padding-left: 8px;
+}
+
+.people-list .status {
+  color: #999;
+  font-size: 13px;
+  float: left;
+  padding-bottom: 2px;
+}
+
+.chat .chat-header {
+  padding: 15px 20px;
+  border-bottom: 2px solid #f4f7f6;
+}
+
+.name-user {
+  margin-left: 10px;  
+  padding-top: 7px;
+}
+.chat .chat-header .chat-about {
+  float: left;
+  padding-left: 10px;
+}
+
+.chat .chat-history {
+  overflow-y: scroll;
+  height: 450px;
+  padding: 15px;
+  border-bottom: 2px solid #fff;
+  scroll-padding-bottom: 0pxs;
+}
+
+.chat .chat-history ul {
+  padding: 0;
+}
+
+.chat .chat-history ul li {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.chat .chat-history ul li:last-child {
+  margin-bottom: 0px;
+}
+
+.chat .chat-history .message-data {
+  display: flex;
+  float: left;
+}
+
+.chat .chat-history .message-data-time {
+  color: #434651;
+  padding-left: 6px;
+}
+
+.chat .chat-history .message {
+  color: #444;
+  padding: 10px 20px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  display: inline-block;
+  position: relative;
+}
+
+.chat .chat-history .my-message {
+  background: #efefef;
+  margin-left: 5px;
+}
+
+.chat .chat-history .other-message {
+  background: #e8f1f3;
+  text-align: right;
+}
+
+.chat .chat-message {
+  padding: 20px;
+}
+
+.online,
+.offline,
+.me {
+  margin-right: 2px;
+  font-size: 8px;
+  vertical-align: middle;
+}
+
+.status .online {
+  color: #86c541;
+}
+
+.status .offline {
+  color: #e47297;
+}
+
+.me {
+  color: #1d8ecd;
+}
+
+.float-right {
+  float: right;
+}
+
+.reply {
+  height: 70px;
+  width: 100%;
+  background-color: #dfdcd9;
+  padding: 10px 5px 10px 5px !important;
+  margin: 0 !important;
+  z-index: 1000;
+}
+
+@media only screen and (max-width: 767px) {
+  .chat-app .people-list {
+    height: 465px;
+    background: #fff;
+  }
+  .chat-app .people-list.open {
+    left: 0;
+  }
+  .chat-app .chat .chat-header {
+    border-radius: 0.55rem 0.55rem 0 0;
+  }
+  .chat-app .chat-history {
+    height: 415px;
+    overflow: auto;
+  }
+  .chat-app .reply {
+    width: 100%;
+  }
+}
+.text-red {
+  color: red;
+  text-align: start;
+}
+.ant-drawer-title { 
+  text-align: center;
+  font-size: 20px !important;
+}
