@@ -11,3 +11,6 @@
 .ant-picker-large {
   width: 100%;
 }
+.ant-select{
+  text-align: start;
+}

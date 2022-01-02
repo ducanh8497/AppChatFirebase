@@ -3,6 +3,7 @@ import {
   collection,
   doc,
   getDoc,
+  limit,
   onSnapshot,
   query,
   updateDoc,
@@ -172,7 +173,42 @@ const Main = () => {
       setConversations(listConversationsSort);
     });
   };
-
+  const updateConversationsAreView = async (personIdSend, personIdReceive) => {
+    const q = await query(
+      collection(db, "conversations"),
+      where("user_uid_1", "in", [personIdSend, personIdReceive])
+    );
+    onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((docs) => {
+        if (// chỉ update state isView cho message có uid_1 = người nhận
+          (docs.data().user_uid_1 === personIdReceive &&
+            docs.data().user_uid_2 === personIdSend)
+        ) {
+          const convers = doc(db, "conversations", docs.id);
+          updateDoc(convers, {
+            isView: true,
+          });
+        }
+      });
+    });
+  }
+  useEffect(() => {
+    const usermessages = [] 
+    const q =  query(
+      collection(db, "conversations"),
+      where("user_uid_1", "==", user.uid || "user_uid_2", "==", user.uid )
+    );
+    // lấy tất cả tin nhắn của user
+    onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((docs) => {
+        console.log(docs.data())
+        usermessages.push(docs.data())
+       
+      });
+    });
+    
+  }, [])
+  
   const initChat = async (userChat) => {
     navigate("/");
     setChatUser(userChat.name);
@@ -182,6 +218,7 @@ const Main = () => {
     if (user?.uid && userChat?.uid) {
       getRealtimeConversations(user?.uid, userChat?.uid);
     }
+    updateConversationsAreView(user?.uid, userChat?.uid);
   };
 
   const submitMessage = async () => {
@@ -241,6 +278,7 @@ const Main = () => {
           <div className="list-user">
             {allUser?.map((x) => (
               <div
+                key={x.uid}
                 title={x?.name}
                 onClick={() => initChat(x)}
                 className="ml-2 mt-3"

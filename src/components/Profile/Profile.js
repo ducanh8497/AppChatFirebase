@@ -23,7 +23,12 @@ export const Profile = (props) => {
         <Form
           name="normal_login"
           className="login-form mt-4"
-          initialValues={{ remember: true }}
+          initialValues={{
+            name:data?.name,
+            dateOfBirth: moment(data?.dateOfBirth, "DD/MM/YYYY"),
+            gender: data?.gender,
+            email: data?.email
+           }}
           onFinish={onFinish}
           size="large"
         >
@@ -32,7 +37,7 @@ export const Profile = (props) => {
             hasFeedback
             rules={[{ required: true, message: "Please input your name!" }]}
           >
-            <Input placeholder="Full name" defaultValue={data?.name} />
+            <Input placeholder="Full name"  />
           </Form.Item>
           <Form.Item
             hasFeedback
@@ -41,7 +46,9 @@ export const Profile = (props) => {
           >
             <DatePicker
               format="DD/MM/YYYY"
-              defaultValue={moment(data?.dateOfBirth, "DD/MM/YYYY")}
+              disabledDate={(current)=>{
+              return current && current > moment().startOf('day')
+            }}
             />
           </Form.Item>
           <Form.Item
@@ -50,15 +57,14 @@ export const Profile = (props) => {
             rules={[{ required: true, message: "Please select gender!" }]}
           >
             <Select
-              placeholder="Select your gender"
-              defaultValue={data?.gender}
+              placeholder="Select your gender" 
             >
               <Option value="male">Male</Option>
               <Option value="female">Female</Option>
             </Select>
           </Form.Item>
           <Form.Item hasFeedback name="email">
-            <Input placeholder="Email" defaultValue={data?.email} disabled />
+            <Input placeholder="Email"  disabled />
           </Form.Item>
           <Form.Item>
             <Button
